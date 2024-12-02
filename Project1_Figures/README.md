@@ -70,9 +70,6 @@ list of figures. After the figures have been entered, the user should be able to
 - Duplicate a figure in the list. The copy should be added to the end of the list.
 - Store the resulting list back into a file.
 
-This work is licensed under CC BY-NC-SA 4.0 Page 1 of 9
-
-
 **Guide**
 
 **Step 1. Figures**
@@ -114,18 +111,14 @@ Cover all figures with unit tests. Consider the following:
 - Handling the case when calculating the perimeter results in an overflow (ideally will
     be handled early, in the constructor).
 
-
 
 ```
 Virtual destructors in C++
-When using C++, when you have a polymorphic base class, do not for­
-get to add a virtual destructor. For more information check:
+When using C++, when you have a polymorphic base class, do not forget to 
+add a virtual destructor.
 ```
 - Guideline C.35: A base class destructor should be either public and
     virtual, or protected and non-virtual | C++ Core Guidelines
-
-Page 2 of 9 This work is licensed under CC BY-NC-SA 4.
-
 
 - Guideline C.121: If a base class is used as an interface, make it a
     pure abstract class | C++ Core Guidelines
@@ -147,18 +140,18 @@ For example, in C++, you can:
 ```
 class string_convertible {
 public :
-virtual std::string to_string() const = 0 ;
-virtual ~string_convertible() = default ;
+    virtual std::string to_string() const = 0 ;
+    virtual ~string_convertible() = default ;
 };
 ```
 Cover the to-string method with unit tests. Use it to also check whether the constructor
 of a figure sets appropriate values for its properties:
 
-```
-1.Create a figure with specific parameters (e.g. a triangle with sides 10, 20 and 30).
-2.Convert it to a string.
-3.Check whether the string is correct (in this case it should be "triangle 10 20 30").
-```
+
+1. Create a figure with specific parameters (e.g. a triangle with sides 10, 20 and 30).
+2. Convert it to a string.
+3. Check whether the string is correct (in this case it should be "triangle 10 20 30").
+
 **Step 3. Cloning**
 
 Use the Prototype design pattern to make it possible to clone a figure without knowing
@@ -172,9 +165,6 @@ In other languages, such as C++, you have to provide that yourself by either add
 clone method to the base Figure class, or by implementing your own Cloneable class.
 
 Write the appropriate unit tests to check that cloning works correctly.
-
-This work is licensed under CC BY-NC-SA 4.0 Page 3 of 9
-
 
 **Step 4. String to figure conversion**
 
@@ -211,7 +201,6 @@ ple, see the following sources for Java:
 - Java Scanner | Baeldung
 - BufferedReader vs Console vs Scanner in Java | Baeldung.
 
-
 
 ```
 In the text we refer to that functionality as a "stream", but this does
@@ -226,9 +215,6 @@ rectly. Note that:
     string function to keep things consistent.
 - You should include tests that explore what happens on incorrect input. For example:
     - when the string is empty,
-
-Page 4 of 9 This work is licensed under CC BY-NC-SA 4.
-
 
 - when the string is missing some parameters, e.g. "triangle 10 20",
 - when some of the parameters are ill-formed, e.g. "triangle 10 abc -30",
@@ -279,9 +265,6 @@ To test the factory that reads a figure from a stream, first create a string whi
 the representation of one or more figures. Then create a stream from that string and
 pass it to the factory. Check that the factory creates the correct figure(s).
 
-This work is licensed under CC BY-NC-SA 4.0 Page 5 of 9
-
-
 You may also want to check what happens when the stream is empty, or when it contains
 incorrect data. Also, if it will be possible to continue reading from the stream after an
 error occurs.
@@ -330,9 +313,6 @@ create figures from that source.
 
 The program proceeds to use the newly-created figure factory to read N figures.
 
-Page 6 of 9 This work is licensed under CC BY-NC-SA 4.
-
-
 After reading the figures, the program’s functionality relies on operations that are univer­
 sal to all figures:
 
@@ -354,7 +334,7 @@ In the examples above, in all C++ excerpts we assumed that figures are returned 
 pointers. Switch to using smart pointers to manage the memory of the figures. This will
 make the code safer and easier to maintain.
 
-- Make all figure factories return std::unique_ptr<figure> instead of figure*.
+- Make all figure factories return std::unique_ptr<figure\> instead of figure*.
 - Make the abstract factory return std::unique_ptr<figure_factory> instead of
     figure_factory*.
 
@@ -374,37 +354,28 @@ In Java and C# you can proceed as follows.
 When creating a figure from it string representation (say, "triangle 10 20 30"):
 
 ```
-1.First, read the figure type. In the example above this is "triangle"
-2.Then, capitalize its first letter. In our example you will get "Triangle".
-3.Now search whether there is a class with that name that is a subtype of Figure. If
+1. First, read the figure type. In the example above this, that would be "triangle"
+2. Then, capitalize its first letter. In our example you will get "Triangle".
+3. Now search whether there is a class with that name that is a subtype of Figure. If
 so, then we an assume that this is a valid figure. Otherwise (if there is no such class,
 or it is not a descendant of Figure), this is not a valid figure type.
-4.Proceed to read the figure’s parameters from the string and invoke the proper con­
-```
-This work is licensed under CC BY-NC-SA 4.0 Page 7 of 9
-
-
-```
-structor to create a figure of that type.
-a.In Java, to make it easier, use invokeConstructor from Apache Commons' Con­
-structorUtils https://commons.apache.org/proper/commons-lang/api­
-docs/org/apache/commons/lang3/reflect/ConstructorUtils.html
-b. If using C#, check this answer on Stack Overflow: https://stackover­
-flow.com/a/ 3255716
+4. Proceed to read the figure’s parameters from the string and invoke the proper con­
+ to create a figure of that type.
+    a.In Java, to make it easier, use invokeConstructor from Apache Commons' ConstructorUtils:
+    https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/reflect/ConstructorUtils.html
+    b. If using C#, check this answer on Stack Overflow:
+    https://stackoverlow.com/a/ 3255716
 ```
 To create a random figure, one can come up with a similar idea:
 
 ```
-1.Enumerate all subtypes of Figure. Pick a random one.
-2.Check its constructors for one, which has one or more double parameters (and
+1. Enumerate all subtypes of Figure. Pick a random one.
+2. Check its constructors for one, which has one or more double parameters (and
 nothing else but double). Note the number of parameters.
-3.Generate that many random numbers and invoke the constructor.
+3. Generate that many random numbers and invoke the constructor.
 ```
 After accomplishing this, you will be able to add or remove figures without having to
 alter the figure-creating factories in any way.
-
-Page 8 of 9 This work is licensed under CC BY-NC-SA 4.
-
 
 **Skills and Competencies**
 
@@ -427,6 +398,6 @@ _Design Patterns:_
 - Factory
 - Prototype
 
-This work is licensed under CC BY-NC-SA 4.0 Page 9 of 9
+This work is licensed under CC BY-NC-SA 4.0
 
 
